@@ -1,1 +1,1 @@
-# VeST
+# VeST: Very Sparse Tucker Factorization 
