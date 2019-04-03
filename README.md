@@ -17,7 +17,7 @@ The source codes used in the paper are available.
 * VeST-v1.0: [[download](/src/)]
 
 ## Comparison
-![comp_img](/img/Fig2.jpg)
+![comp_img](/img/Fig2.png)
 
 ## Dataset
 
