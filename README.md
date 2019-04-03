@@ -1,19 +1,15 @@
-# VeST: Very Sparse Tucker Factorization 
+# VeST: Very Sparse Tucker Factorization of Large-Scale Tensors 
 
-#############################################################################################
-#    VeST: Very Sparse Tucker Factorization of Large-Scale Tensors 
-#   
-#   Authors: Park MoonJeong (moonjeong94@dgist.ac.kr), Daegu Gyeonbuk Institute of Science and Technology
-#             Jang Jun-Gi (elnino4@snu.ac.kr), Seoul National University
-#            Lee Sael (saellee@snu.ac.kr), Seoul National University
-#   
-#   Version : 1
-#   Date: 2019-03-10
-#   Main contact: MoonKeong Park (moonjeong94@dgist.ac.kr or moonjeong7523@gmail.com)
-#
-#   This software is free of charge under research purposes.
-#   For commercial purposes, please contact the Lee Sael.
-#############################################################################################
+0. Information 
+
+    Authors: Park MoonJeong (moonjeong94@dgist.ac.kr), Daegu Gyeonbuk Institute of Science and Technology
+            Jang Jun-Gi (elnino4@snu.ac.kr), Seoul National University
+            Lee Sael (saellee@snu.ac.kr), Seoul National University
+    Version : 1
+    Date: 2019-03-10
+    Main contact regarding the software: MoonKeong Park (moonjeong94@dgist.ac.kr or moonjeong7523@gmail.com)
+
+    This software is free of charge under research purposes. For commercial purposes, please contact Lee Sael.
 
 1. Introduction
 
