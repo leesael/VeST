@@ -1,5 +1,3 @@
-# VeST: Very Sparse Tucker Factorization 
-
 #############################################################################################
 #    VeST: Very Sparse Tucker Factorization of Large-Scale Tensors 
 #   
@@ -36,7 +34,8 @@ The entries are updated iteratively in a coordinate descent manner in parallel f
 
         [Mac] Mac has it's own 'Accelerate' library that runs with Armadillo.
         
-        [Mac] You should have headers. Check to see if you have /usr/include directory. If not, install header packages. Mine was found at '/Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg' 
+        [Mac] You should have headers. Check to see if you have /usr/include directory. If not, install header packages. Mine was found at
+ /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg  
 
     [Step 2] Compile and run VeST
 
