@@ -20,8 +20,8 @@ The source codes used in the paper are available.
 ![compy_img](/img/Fig2.png)
 
 ## Dataset
-| Name | Order | Dimensionality | Number of Entries | Download
-| --- | --- | --- | --- | 
+| Name | Order | Dimensionality | Number of Entries | Download |
+| --- | --- | --- | --- | --- |
 | Yelp-s | 3 | 50 \times 50 \times 10 | 267 | [download](/sample/Yelp-s.zip) |
 | AmzonFood-s | 3 | 50 \times 50 \times 10 | 495 | [download](/sample/AmzonFood-s.zip) |
 
