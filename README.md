@@ -17,10 +17,12 @@ The source codes used in the paper are available.
 * VeST-v1.0: [[download](/src/)]
 
 ## Comparison
-![comp_img](/img/Fig2.png)
+![compy_img](/img/Fig2.png)
 
 ## Dataset
 
+## Discovery
+![discovery_img](/img/discovery.png)
 
 ## People
 [MoonJeoung Park] (Daegu Gyeongnuk Institute of Science and Technology)  
