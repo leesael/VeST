@@ -1,7 +1,9 @@
-# if running in mac you sould have /usr/include directory 
-# they can be installed in  (2018)
-# /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg
-R
+# If running in mac, check to see if you have /usr/include directory 
+# If they are not found, headers can be installed using 
+# /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_XX.XX.pkg
+# that should have been located in your mac (where XX.XX is your mac OS verision number)
+# when you installed the Xcode comandline tools 
+
 CXX=clang++
 
 LIB_FLAGS = -larmadillo -llapack -framework Accelerate
