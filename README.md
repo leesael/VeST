@@ -22,8 +22,8 @@ The source codes used in the paper are available.
 ## Dataset
 | Name | Order | Dimensionality | Number of Entries | Download |
 | --- | --- | --- | --- | --- |
-| Yelp-s | 3 | 50 \times 50 \times 10 | 267 | [download](/sample/Yelp-s.zip) |
-| AmzonFood-s | 3 | 50 \times 50 \times 10 | 495 | [download](/sample/AmzonFood-s.zip) |
+| Yelp-s | 3 | 50 × 50 × 10 | 267 | [download](/sample/Yelp-s.zip) |
+| AmzonFood-s | 3 | 50 × 50 × 10 | 495 | [download](/sample/AmzonFood-s.zip) |
 
 ## Discovery
 We evaluated interpretability of VeST by investigating the factorization results of [MovieLens](https://grouplens.org/datasets/movielens/) dataset and visually showing that the sparse results enhance interpretability.
