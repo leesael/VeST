@@ -5,7 +5,7 @@ LIB_FLAGS = -larmadillo -llapack -lblas -DARMA_DONT_USE_WRAPPER
 
 OPT = -O2 -mcmodel=medium  -fopenmp -w 
 
-all: VeST 
+all: VeST demo
 
 VeST: src/VeST.cpp  
 	$(CXX) $(OPT)  -o bin/$@  $< $(LIB_FLAGS)
