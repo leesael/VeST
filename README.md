@@ -14,14 +14,15 @@ Park, M., Jang, J.  & Sael, L. (2019). **VeST: Very Sparse Tucker Factorization 
 
 ## Code
 The source codes used in the paper are available. 
-* VeST-v1.0: [[download](/src/)]
+* VeST-v1.0: [download](/src/)
 
 ## Comparison
 ![compy_img](/img/Fig2.png)
 
 ## Dataset
-
 ## Discovery
+We evaluated interpretability of \vest by investigating the factorization results of [MovieLens](https://grouplens.org/datasets/movielens/) dataset and visually showing that the sparse results enhance interpretability.
+
 ![discovery_img](/img/discovery.png)
 
 ## People
