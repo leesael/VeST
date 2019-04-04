@@ -21,7 +21,7 @@ The source codes used in the paper are available.
 
 ## Dataset
 ## Discovery
-We evaluated interpretability of \vest by investigating the factorization results of [MovieLens](https://grouplens.org/datasets/movielens/) dataset and visually showing that the sparse results enhance interpretability.
+We evaluated interpretability of VeST by investigating the factorization results of [MovieLens](https://grouplens.org/datasets/movielens/) dataset and visually showing that the sparse results enhance interpretability.
 
 ![discovery_img](/img/discovery.png)
 
