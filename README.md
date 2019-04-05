@@ -9,8 +9,8 @@ The entries are updated iteratively in a coordinate descent manner in parallel f
 ## Paper
 Please use the following citation for VeST:
 
-Park, M., Jang, J.  & Sael, L. (2019). **VeST: Very Sparse Tucker Factorization of Large-Scale Tensors.** 
-[[Paper]()] [[Supplementary Material](/paper/supp-material.pdf)]
+Park, M., Jang, J.  & Sael, L. (2019). **VeST: Very Sparse Tucker Factorization of Large-Scale Tensors.**  arXiv:1904.02603 [cs.NA]
+[[Paper](https://arxiv.org/abs/1904.02603)] [[Supplementary Material](/paper/supp-material.pdf)]
 
 ## Code
 The source codes used in the paper are available. 
@@ -31,6 +31,6 @@ We evaluated interpretability of VeST by investigating the factorization results
 ![discovery_img](/img/discovery.png)
 
 ## People
-[MoonJeoung Park] (Daegu Gyeongnuk Institute of Science and Technology)  
+MoonJeoung Park (Daegu Gyeongnuk Institute of Science and Technology)  
 [Jung-Gi Jang](https://datalab.snu.ac.kr/~jkjang) (Seoul National University)  
 [Lee Sael](https://leesael.github.io/) (Seoul National University)
