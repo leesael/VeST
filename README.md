@@ -13,7 +13,7 @@ entry-wise **responsibility** for the decomposed results. The entries are update
 using a carefully derived coordinate descent rule in parallel for scalable
 computation. VeST also includes an auto-search algorithm to give a good tradeoff
 between sparsity and accuracy. Extensive experiments show that our method
-VEST is at least 2:2 times sparser and at least 2:8 times more accurate compared
+VEST is at least 2.2 times sparser and at least 2.8 times more accurate compared
 to competitors. Moreover, VeST is scalable in terms of dimensionality, number
 of observable entries, and number of threads. Thanks to VeST, we successfully
 interpret the decomposition result of real-world tensor data based on the sparsity
