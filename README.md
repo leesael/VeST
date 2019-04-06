@@ -44,6 +44,6 @@ We evaluated interpretability of VeST by investigating the factorization results
 ![discovery_img](/img/discovery.png)
 
 ## People
-MoonJeoung Park (Daegu Gyeongnuk Institute of Science and Technology)  
+MoonJeong Park (Daegu Gyeongnuk Institute of Science and Technology)  
 [Jung-Gi Jang](https://datalab.snu.ac.kr/~jkjang) (Seoul National University)  
 [Lee Sael](https://leesael.github.io/) (Seoul National University)
