@@ -12,8 +12,8 @@ OPT = -O2 -mcmodel=medium  -fopenmp -w
 
 all: VeST demo   
 
-VeST: VeST.cpp  
-	$(CXX) $(OPT)  -o $@  $< $(LIB_FLAGS)
+VeST: src/VeST.cpp  
+	$(CXX) $(OPT)  -o bin/$@  $< $(LIB_FLAGS)
 
 demo: 
 	bin/./VeST sample/sample_train.txt sample/sample_test.txt sample/result/ 3 10 10 10 L1 
