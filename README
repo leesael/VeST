@@ -1,60 +1,44 @@
 #############################################################################################
-#    VeST: Very Sparse Tucker Factorization of Large-Scale Tensors 
+#	VEST: Very Sparse Factorization of Large-Scale Tensors
 #   
-#   Authors: Park MoonJeong (moonjeong94@dgist.ac.kr), Daegu Gyeonbuk Institute of Science and Technology
-#             Jang Jun-Gi (elnino4@snu.ac.kr), Seoul National University
-#            Lee Sael (saellee@snu.ac.kr), Seoul National University
-#   
-#   Version : 1
-#   Date: 2019-03-10
-#   Main contact: MoonKeong Park (moonjeong94@dgist.ac.kr or moonjeong7523@gmail.com)
 #
 #   This software is free of charge under research purposes.
-#   For commercial purposes, please contact the Lee Sael.
+#   For commercial purposes, please contact the author.
 #############################################################################################
 
 1. Introduction
 
-VeST is a tensor factorization method for partially observable data to output a very sparse core tensor and factor matrices.
-VeST performs initial decomposition, determines unimportant entries in the decomposition results, removes the unimportant entries, and carefully updates the remaining entries.
-To determine unimportant entries, we define and use entry-wise `responsibility' for the decomposed results.
-The entries are updated iteratively in a coordinate descent manner in parallel for scalable computation.
+    VEST is a scalable Tucker factorization method whose result is very sparse.
+	There are four source codes in src folder.
+	VEST_A1.cpp is the source of VEST^{Auto}_{L_1}, VEST_AF.cpp is the source of VEST^{Auto}_{L_F}, VEST_M1.cpp is the source of VEST^{Manual}_{L_1}, and VEST_MF.cpp is the source of VEST^{Manual}_{L_F}.
+	If you want detail function of each code, check the paper.
     
 2. Usage
-    
-    [Step 1]  Install the OpenMP, Armadillo, LAPACK, and BLAS libraries.
+	
+	[Step 1] Install the attached Armadillo, LAPACK, and BLAS libraries.
 
-        VeST requires Armadillo and OpenMP libraries.
+		P-Tucker requires Armadillo and OpenMP libraries.
 
-        Armadillo library is available at the lib directory or http://arma.sourceforge.net/download.html.
+		Armadillo library is available at the lib directory or http://arma.sourceforge.net/download.html.
 
-        Notice that Armadillo needs LAPACK and BLAS libraries, and they are also available at the lib directory.
+		Notice that Armadillo needs LAPACK and BLAS libraries, and they are also available at the lib directory.
 
-        OpenMP version 2.0 or higher is required for VeST. (It is installed by default if you use gcc/g++ compiler)
+		OpenMP version 2.0 or higher is required for P-Tucker. (It is installed by default if you use gcc/g++ compiler)
+ 	
+ 	[Step 2] Compile and run VEST
 
-        [Mac] Mac has it's own 'Accelerate' library that runs with Armadillo.
-        
-        [Mac] You should have headers. Check to see if you have /usr/include directory. If not, install header packages. Mine was found at
- /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg  
+		If you successfully install all libraries, "make" command will create executable files and execute them.
+		Makefile compile and execute VEST with two script files, compile.sh and do_VEST.sh.
+		compile.sh file contains command to compile VEST codes (ex. g++ -O2 -fopenmp -mcmodel=medium -w -o [executable file name] [target cpp file] -larmadillo -llapack -lblas -DARMA_DONT_USE_WRAPPER)
+		do_VEST.sh file contains command to execute each VEST programs.
 
-    [Step 2] Compile and run VeST
+		The executable file takes 5+N(=order) or 6+N arguments, which are the path of input training tensor file, input test tensor file, path of directory for storing results, tensor order(=N), tensor rank1, ..., tensor rankN, (pruning rate if manual mode) and number of threads. The arguments MUST BE valid and in the above order.
 
-        If you successfully install all libraries, "make" command will create executable files and execute a demo.
+		ex) ./VEST_A1 input_train.txt input_test.txt result/ 3 10 10 10 20
+			./VEST_M1 input_train.txt input_test.txt result/ 3 10 10 10 0.5 20
 
-        Minimum arguments that must be provided are 1. path to training tensor 2. path to testing tensor (if none put 'NA') 3. output directory 4. order and dimensions of each order 5. loss type ('L1' or 'LF') in that order. 
+		If you put the command properly, VEST will write all values of factor matrices and a core tensor in the result directory set by an argument. (PLEASE MAKE SURE THAT YOU HAVE A WRITE PERMISSION TO THE RESULT DIRECTORY!)
 
-        ex) bin/./VeST sample/sample_train.txt sample/sample_test.txt sample/result/ 3 10 10 10 L1
+		ex) result/FACTOR1, result/CORETENSOR
 
-        The default mode is auto-mode with 10 threads. Manual mode can be set by specifying -m with sparsity (0.0-0.99). 
-        
-        ex) bin/./VeST sample/sample_train.txt sample/sample_test.txt sample/result/ 3 10 10 10 L1 -m 0.8
-
-        Other parameters can be changed by not recommended. Please view the 'main' function of VeST.cpp for more options. 
-        
-        If you put the command correctly, VEST will write all values of factor matrices and a core tensor in the result directory set by an argument. 
-        
-        (PLEASE MAKE SURE THAT YOU HAVE A WRITE PERMISSION TO THE RESULT DIRECTORY!)
-
-        ex) result/FACTOR1, result/CORETENSOR
-
-        ** We note that input tensors must follow base-1 indexing and while outputs are based on base-0 indexing.
+		We note that input tensors must follow base-1 indexing and outputs are based on base-0 indexing.

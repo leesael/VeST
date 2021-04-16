@@ -1,0 +1,18 @@
+
+[InputINFO]	lambda	Sparsity	RE	TestRMSE	TotalTime	avgIterTime	NumIter	FM0ratio	Core0ratio	Total0ratio
+[sample/ML_small.tensor,L1,1]	5.000	0.549	0.283	0.000	116.183	6.834	17	0.624	0.770	0.640
+
+pRE=0.553720	RE=0.552912	pRE-RE=0.000808
+
+[InputINFO]	lambda	Sparsity	RE	TestRMSE	TotalTime	avgIterTime	NumIter	FM0ratio	Core0ratio	Total0ratio
+[sample/ML_small.tensor,L1,0]	5.000	0.800	0.553	0.000	117.376	6.521	18	0.821	0.842	0.824
+
+
+[InputINFO]	lambda	Sparsity	RE	TestRMSE	TotalTime	avgIterTime	NumIter	FM0ratio	Core0ratio	Total0ratio
+[sample/ML_small.tensor,LF,1]	5.000	0.549	0.281	0.000	121.691	7.158	17	0.549	0.625	0.558
+
+pRE=0.598059	RE=0.597298	pRE-RE=0.000761
+
+[InputINFO]	lambda	Sparsity	RE	TestRMSE	TotalTime	avgIterTime	NumIter	FM0ratio	Core0ratio	Total0ratio
+[sample/ML_small.tensor,LF,0]	5.000	0.800	0.597	0.000	117.124	6.507	18	0.810	0.800	0.809
+

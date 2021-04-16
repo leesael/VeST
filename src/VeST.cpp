@@ -1,9 +1,5 @@
 /*
  * @file        VEST.cpp
- * @author      MoonJeong Park (moonjeong94@dgist.ac.kr), Daegu Gyeonbuk Institute of Science and Technology
- * @author      Lee Sael (saellee@snu.ac.rk), Seoul National University
- * @version     1
- * @date        2019-01-29
  *
  * VEST: Very Sparse Factorization of Large-Scale Tensors
  *
@@ -359,14 +355,15 @@ void Initialize_read_init(){
 				f_Num[i*max_dim*Core_max + s_index] = i*max_dim*Core_max + j*Core_max + k;
 				s_index++;
 			}
+            fprintf(FM, "\n"); 
 		}
-	}
+    }
     fclose(FM); 
 
     // Initialize output core tensor parameters and data structures
 	CoreTensor = (double *)malloc(sizeof(double)*Core_N);
 	CorePermu = (int *)malloc(sizeof(int)*Core_N*order);
-	markCore = (bool*)malloc(sizeof(int)*Core_N);
+    markCore = (bool*)malloc(sizeof(int)*Core_N);
 	c_Resp = (double*)malloc(sizeof(double)*Core_N);
 	c_Num = (int*)malloc(sizeof(int)*Core_N);
 	if(!AUTO) target_Core_N = Core_N*pratio + 1; 
@@ -385,17 +382,18 @@ void Initialize_read_init(){
     }
 
     for (int i = 0; i < Core_N; i++) {
-		if(is_there){ // read in 
+	    if(is_there){ // read in 
             char x[100];  
             if(fscanf(CF, "%100s", x) == 1) 
     	        CoreTensor[i] = atof(x);
             else
                 CoreTensor[i] = 0; 
-       }else{
+        }else{
             double randNum= frand(0, 1);
         	CoreTensor[i] = randNum;
             fprintf(CF, "%f\t", randNum); 
 		}
+        
         markCore[i] = 0;
 		c_Num[i] = i;
 		if (i == 0) {
@@ -421,186 +419,12 @@ void Initialize_read_init(){
 }   
 
 
-
-////[Input] Metadata + input tensor as a sparse tensor format 
-////[Output] Initialized core tensor G and factor matrices A^{(n)} (n=1...N)
-////[Function] Getting all information about an input tensor X / Initialize all factor matrices and core tensor.
-//void DEPRECATED_Getting_Input() {
-//	char tmp[1005];
-//
-//	FILE *fin = fopen(InputPath, "r");
-//	FILE *fin2 = fopen(InputPath, "r");
-//	FILE *ftest = fopen(testInputPath, "r");
-//	FILE *ftest2 = fopen(testInputPath, "r");
-//
-//	double Timee = clock();
-//
-//	printf("Reading Input...\n");
-//
-//	dimensionality = (int *)malloc(sizeof(int)*order);
-//
-//	for (int i = 0; i < order; i++) {
-//		dimensionality[i] = 0;
-//		Core_N *= Core_size[i];
-//	}
-//	
-//	Entries_N=0;
-//	test_N = 0;
-//	t_FM_N=0;
-//	FM_N = (int*)malloc(sizeof(int)*order);
-//	int len = 0;
-//	//count Entries number of train & test set
-//	while (fgets(tmp, 1005, fin)) {
-//		Entries_N++;
-//	}
-//	while (fgets(tmp, 1005, ftest)) {
-//		test_N++;
-//	}
-//
-//	Index = (int *)malloc(sizeof(int)*Entries_N*order);
-//	Entries = (double *)malloc(sizeof(double)*Entries_N);
-//	I2 = (int *)malloc(sizeof(int)*test_N*order);
-//	E2 = (double *)malloc(sizeof(double)*test_N);
-//
-//	//assign value of train & test set 
-//	int pos = 0;
-//	for (int i = 0; i < Entries_N; i++) {
-//		fgets(tmp, 1005, fin2);
-//		len = strlen(tmp);
-//		int k = 0, idx = 0, flag = 0;
-//		double mul = 0.1, val = 0;
-//		for (int j = 0; j < len; j++) {
-//			if (tmp[j] == ' ' || tmp[j] == '\t') {
-//				Index[pos++] = idx - 1;
-//				
-//				if (dimensionality[k] < idx) dimensionality[k] = idx;
-//				idx = 0;
-//				k++;
-//			}
-//			else if (tmp[j] >= '0' && tmp[j] <= '9') {
-//				if (flag == 1) {
-//					val += mul*(tmp[j] - '0');
-//					mul /= 10;
-//				}
-//				else idx = idx * 10 + tmp[j] - '0';
-//			}
-//			else if (tmp[j] == '.') {
-//				val += idx;
-//				flag = 1;
-//			}
-//		}
-//		if(flag==0) val = idx;
-//		Entries[i] = val;
-//		NormX += Entries[i] * Entries[i];
-//	}
-//	pos = 0;
-//	for (int i = 0; i < test_N; i++) {
-//		fgets(tmp, 1005, ftest2);
-//		len = strlen(tmp);
-//		int k = 0, idx = 0, flag = 0;
-//		double mul = 0.1, val = 0;
-//		for (int j = 0; j < len; j++) {
-//			if (tmp[j] == ' ' || tmp[j] == '\t') {
-//				I2[pos++] = idx - 1;
-//				if (dimensionality[k] < idx) dimensionality[k] = idx;
-//				idx = 0;
-//				k++;
-//			}
-//			else if (tmp[j] >= '0' && tmp[j] <= '9') {
-//				if (flag == 1) {
-//					val += mul*(tmp[j] - '0');
-//					mul /= 10;
-//				}
-//				else idx = idx * 10 + tmp[j] - '0';
-//			}
-//			else if (tmp[j] == '.') {
-//				val += idx;
-//				flag = 1;
-//			}
-//		}
-//		if(flag==0) val = idx;
-//		E2[i] = val;
-//	}
-//	for (int i = 0; i < order; i++) {
-//		if (max_dim < dimensionality[i]) max_dim = dimensionality[i];
-//		FM_N[i] = dimensionality[i]*Core_size[i];	
-//		t_FM_N += dimensionality[i]*Core_size[i];	
-//	}
-//	max_dim++;		// just give margin (don't care)
-//	WhereX = (int *)malloc(sizeof(int)*order*Entries_N);
-//	CountX = (int *)malloc(sizeof(int)*max_dim*order);
-//
-//	NormX = sqrt(NormX);
-//	printf("Reading Done.\n\n[METADATA]\nTensor Order: %d\tSize: ", order);
-//	for (int i = 0; i < order; i++) {
-//		if (i != order - 1) printf("%dx", dimensionality[i]);
-//		else printf("%d\t", dimensionality[i]);
-//	}
-//	printf("Rank: ");
-//	for (int i = 0; i < order; i++) {
-//		if (i != order - 1) printf("%dx", Core_size[i]);
-//		else printf("%d\t", Core_size[i]);
-//	}
-//	printf("NNZ : %d\tThreads : %d\tNorm : %lf\n\nInitialize...\n", Entries_N, threadsN, NormX);
-//
-//	//INITIALIZE
-//	assign_index();
-//	FactorM = (double *)malloc(sizeof(double)*order*max_dim*Core_max);
-//	markFM = (int *)malloc(sizeof(int)*order*max_dim*Core_max);
-//	f_Resp = (double *)malloc(sizeof(double)*order*max_dim*Core_max);
-//	f_Num = (int *)malloc(sizeof(int)*order*max_dim*Core_max);
-//	Pruned_FM_N = (int *)malloc(sizeof(int)*order);
-//	for (int i = 0; i < order; i++) {
-//		int row = dimensionality[i], col = Core_size[i];
-//		Pruned_FM_N[i] = 0;
-//		int s_index = 0;
-//		for (int j = 0; j < row; j++) {
-//			for (int k = 0; k < col; k++) {
-//				FactorM[i*max_dim*Core_max + j*Core_max + k] = frand(0, 1);
-//				markFM[i*max_dim*Core_max + j*Core_max + k] = 0;
-//				f_Num[i*max_dim*Core_max + s_index] = i*max_dim*Core_max + j*Core_max + k;
-//				s_index++;
-//			}
-//		}
-//	}
-//
-//	CoreTensor = (double *)malloc(sizeof(double)*Core_N);
-//	CorePermu = (int *)malloc(sizeof(int)*Core_N*order);
-//	markCore = (int*)malloc(sizeof(int)*Core_N);
-//	c_Resp = (double*)malloc(sizeof(double)*Core_N);
-//	c_Num = (int*)malloc(sizeof(int)*Core_N);
-//	pos = 0;
-//	for (int i = 0; i < Core_N; i++) {
-//		CoreTensor[i] = frand(0, 1);
-//		markCore[i] = 0;
-//		c_Num[i] = i;
-//		if (i == 0) {
-//			for (int j = 0; j < order; j++) CorePermu[j] = 0;
-//		}
-//		else {
-//			for (int j = 0; j < order; j++) {
-//				CorePermu[i*order + j] = CorePermu[(i - 1)*order + j];
-//			}
-//			CorePermu[i*order + order - 1]++;  
-//            int k = order - 1;
-//			while (CorePermu[i*order + k] >= Core_size[k]) {
-//				CorePermu[i*order + k] -= Core_size[k];
-//				CorePermu[i*order + k - 1]++; 
-//                k--;
-//			}
-//		}
-//	}
-//
-//	LAMBDA *= ((double)Entries_N)/((double)Core_N+(double)t_FM_N);
-//	printf("Elapsed Time for I/O and Initializations:\t%lf\n\n", (clock() - Timee) / CLOCKS_PER_SEC);
-//}
-//
-
 //[Input] Input tensor X, initialized or updated factor matrices A^{(n)} (n=1,...,N) and core tensor G
 //[Output] Updated core tensor G
 //[Function] Update all core tensor entries by a entry-wise update rule derived from L_1 regularized loss function
 void Update_Core_Tensor() {
-	double* Save_1 = (double *)malloc(sizeof(double)*Entries_N);
+
+    double* Save_1 = (double *)malloc(sizeof(double)*Entries_N);
 
 	int mull = max_dim*Core_max;
 #pragma omp parallel for schedule(static) 
@@ -621,10 +445,9 @@ void Update_Core_Tensor() {
 		Save_1[i] = ans;
 		free(cach);
 	}
-
 	//Cannot be parallelized
 	for (int i = 0; i < Core_N; i++) {
-		if(markCore[i] != 0) continue;
+		if(markCore[i] != 0) continue; 
 		double *cach = (double *) malloc(sizeof(double)*order);
 		double g = 0;
 		double d = 0;
@@ -678,11 +501,12 @@ void Update_Factor_Matrices() {
 		int column_N = Core_size[i];
 		
 		// store index of all nonzero elements of core-tensor 
-		int *nz_core_ind = (int*)malloc(sizeof(int)*(Core_N-Pruned_Core_N));
+        int fmsize = Core_N;
+        if(MARK) fmsize -= Pruned_Core_N; 
+		int *nz_core_ind = (int*)malloc(sizeof(int)*(fmsize));
 		int nnzc = 0; //number of nonzero entries of core tensor
 		for (int l = 0; l < Core_N; l++){
-			double res = CoreTensor[l];
-			if(res == 0) continue;
+			if(MARK) if(CoreTensor[l] == 0) continue;
 			nz_core_ind[nnzc] = l;
 			nnzc++;
 		}
@@ -690,7 +514,7 @@ void Update_Factor_Matrices() {
 #pragma omp parallel for schedule(static) //in parallel
 		for (int j = 0; j < row_N; j++) {
 			for(int k = 0; k < column_N; k++){
-				if(markFM[i*mult + j*Core_max + k] != 0) continue;
+				if(markFM[i*mult + j*Core_max + k] != 0) continue; 
 
 				double *Delta = (double *)malloc(sizeof(double)*column_N);
 				double *V = (double *)malloc(sizeof(double)*column_N);
@@ -818,7 +642,8 @@ void Reconstruction() {
 //[Function] Calculating Resp(G_gamma) for core tensor entry G_gamma and prune core tensor entries
 void Calculate_Core_Resp() {
 	double* tc_Error_T = (double *) malloc(sizeof(double)*Entries_N);
-	int unmarked_Core_N = Core_N - Pruned_Core_N;
+	int unmarked_Core_N = Core_N;
+    if(MARK) unmarked_Core_N -= Pruned_Core_N;
 
 #pragma omp parallel for schedule(static)
 	for (int i=0; i<Core_N; i++) {
@@ -865,6 +690,7 @@ void Calculate_Core_Resp() {
 	}
 	std::sort(c_Num, c_Num + unmarked_Core_N, comp_c);
 
+
 	free(tc_Error_T);
 }
 
@@ -877,7 +703,8 @@ void Calculate_FM_Resp() {
 	for(int i=0; i<order; i++){
 		int row = dimensionality[i], col = Core_size[i];
 		int mull = max_dim*Core_max;
-		int unmarked_FM_N = row*col - Pruned_FM_N[i];
+		int unmarked_FM_N = row*col;
+        if(MARK) unmarked_FM_N -= Pruned_FM_N[i];
 		
 		//printf("check\n");
 		for (int j = 0; j < row; j++) {
@@ -970,51 +797,90 @@ void Calculate_FM_Resp() {
 //[Output] Pruned factor matrix A^{(i)} and core tensor G, and updated marking table 
 //[Function] Calculating Resp value and prune elements
 double Pruning(int g_iter){
-	Calculate_Core_Resp();
-	Calculate_FM_Resp();
-
-	int Remove;
-    
+    int Remove;
     double pR = MIN(INIT_PR*g_iter, MAX_PR); 
+    int countPR = 0;
 	//double pR = 0.1;
-
+	Calculate_Core_Resp();
+	
     // Prune Core Tensor
-	if(AUTO){
-        Remove = pR*Core_N;
-    }else{
-        if(target_Core_N - Pruned_Core_N > pR*Core_N) Remove = pR*Core_N;
-	    else Remove = target_Core_N- Pruned_Core_N;
-    }
-
 	int unmarked_Core_N = Core_N - Pruned_Core_N;
-	for(int i=0; i < Remove; i++){
-		int now = c_Num[unmarked_Core_N - 1 - i];
-		CoreTensor[now] = 0;
-		markCore[now] = 1;
-	}
-	Pruned_Core_N += Remove;
+    if(AUTO){
+        Remove = pR*Core_N;
+        if(unmarked_Core_N - Remove < Core_max) {
+            Remove = MAX(unmarked_Core_N - Core_max,0);
+            countPR++;  
+        }
+    }else{
+        if(target_Core_N - Pruned_Core_N > pR*Core_N) 
+            Remove = pR*Core_N;
+	    else{ 
+            Remove = target_Core_N - Pruned_Core_N;
+            countPR++;
+        }
+    }
+   
+    if(MARK){ 
+        for(int i=0; i < Remove; i++){
+		    int now = c_Num[unmarked_Core_N - 1 - i];
+            CoreTensor[now] = 0;
+		    markCore[now] = 1;
+	    }
+	}else{
+        for(int i=0; i < Remove + Pruned_Core_N; i++){
+		    int now = c_Num[Core_N - 1 - i];
+            CoreTensor[now] = 0;
+	    }	
+    }
+    Pruned_Core_N += Remove;
+    
+    // calculate FM responsibility
+    Calculate_FM_Resp();
 
 	// Prune Factor Matrices
 	for(int i=0; i<order; i++){
+        int unmarked_FM_N = FM_N[i] - Pruned_FM_N[i];
 		if(AUTO){
             Remove = pR*FM_N[i];
+            if(unmarked_FM_N - Remove  < dimensionality[i]){
+                Remove = MAX(unmarked_FM_N - dimensionality[i],0); 
+                countPR++; 
+            }
         }else{
             if(target_FM_N[i] - Pruned_FM_N[i] > pR*FM_N[i]) Remove = pR*FM_N[i];
-		    else Remove = target_FM_N[i] - Pruned_FM_N[i];
+		    else{ 
+                Remove = target_FM_N[i] - Pruned_FM_N[i];
+                countPR++;
+            }
         }
-        int unmarked_FM_N = FM_N[i] - Pruned_FM_N[i];
-		for(int j=0; j < Remove; j++){
-			int now = f_Num[i*Core_max*max_dim + unmarked_FM_N - 1 -j];
-			int row_idx = (now-i*Core_max*max_dim)/Core_max;
-			int col_idx = (now-i*Core_max*max_dim)%Core_max;
-			if(row_idx > dimensionality[i]) cout << "Problem occured, rowidx:" << row_idx << " > row:" << dimensionality[i] << endl;
-			if(col_idx > Core_size[i]) cout << "Problem occured, colidx:" << col_idx << " > col:" << Core_size[i] << endl;
+        
+        if(MARK){
+		    for(int j=0; j < Remove; j++){
+			    int now = f_Num[i*Core_max*max_dim + unmarked_FM_N - 1 -j];
+			    int row_idx = (now-i*Core_max*max_dim)/Core_max;
+			    int col_idx = (now-i*Core_max*max_dim)%Core_max;
+			    if(row_idx > dimensionality[i]) cout << "Problem occured, rowidx:" << row_idx << " > row:" << dimensionality[i] << endl;
+			    if(col_idx > Core_size[i]) cout << "Problem occured, colidx:" << col_idx << " > col:" << Core_size[i] << endl;
 
-			FactorM[now] = 0;
-			markFM[now] = 1;
-		}
+		    	FactorM[now] = 0;
+			    if(MARK) markFM[now] = 1;
+		    }
+        }else{
+            for(int j=0; j < Remove+Pruned_FM_N[i]; j++){
+			    int now = f_Num[i*Core_max*max_dim + FM_N[i] - 1 -j];
+			    int row_idx = (now-i*Core_max*max_dim)/Core_max;
+			    int col_idx = (now-i*Core_max*max_dim)%Core_max;
+			    if(row_idx > dimensionality[i]) cout << "Problem occured, rowidx:" << row_idx << " > row:" << dimensionality[i] << endl;
+			    if(col_idx > Core_size[i]) cout << "Problem occured, colidx:" << col_idx << " > col:" << Core_size[i] << endl;
+
+		    	FactorM[now] = 0;
+		    }
+        }
 		Pruned_FM_N[i] += Remove;
 	}
+    
+    if(countPR == order+1) keepPruning = false; 
+
 	int t_pruned = Pruned_Core_N;
 	int t_N = Core_N;
 	for(int i = 0; i < order; i++){
@@ -1027,66 +893,6 @@ double Pruning(int g_iter){
     return pR; 
 }
 
-// Purning stopping criterion 
-//double DEPRECATED_CheckOP(int g_iter, double pR){
-//	double avgd;
-//    if(pR < INIT_PR) return 0; 
-//    if(g_iter <= 3) 
-//        preREs[g_iter - 1] = RE; 
-//    else{
-//        double avgRE = (preREs[0]+preREs[1]+preREs[2])/3.0;
-//        if( (RE-avgRE) > EPSILON ){
-//			pR = INIT_PR-INIT_PR*MAX_PR;
-//		} else{
-//            if(RE-avgRE>0)
-//                pR = MAX(MIN(1.0/(abss(RE-avgRE)*10000), MAX_PR), INIT_PR);
-//            else
-//                pR = MIN(g_iter*pR, MAX_PR);  
-//        }
-//        // update previous REs
-//        for(int i=0; i<2; i++)
-//            preREs[i] = preREs[i+1];
-//        preREs[2] = RE;
-//        if(VERBOSE) printf("RE: %f, avgRE: %f, new pR: %f", RE, avgRE, pR);   
-//    }
-//    return pR; 
-//}
-//
-//// Purning stopping criterion 
-//void DEPRECATED1_CheckOP(int g_iter, double pR){
-//	double avgd;
-//    if(keepPruning == false) return; 
-//
-//    if(g_iter == 1){ 
-//        RE_max = RE_min = RE;
-//        pRE = RE; 
-//    } else if(g_iter == 2){
-//        avgREDiff  = abss(RE-pRE)*pR;
-//        pRE = RE; 
-//    }
-//    else{
-//        double REdiff = abss(RE-pRE)*pR;
-//        if(REdiff > (avgREDiff*2.0) && REdiff > STOP_RE_DIFF*5.0){
-//			keepPruning = false;
-//		}
-//		if(RE > RE_max) RE_max = RE;
-//        if(VERBOSE) printf("CheckOP: REdiff %f, avgREDiff %f\n", REdiff, avgREDiff);
-//	    avgREDiff  = (avgREDiff*(g_iter-1)+REdiff)/g_iter;  
-//    }
-//    return; 
-////    else{ 
-////		avgd = sumdRE/((double)(g_iter-1)*pR);
-////		if(RE > (RE_max + avgd)){
-////			keepPruning = false;
-////			return;
-////		}
-//// 
-////		if(RE > RE_max) RE_max = RE;
-////		sumdRE += abss(RE-pRE);
-////	    avgRE  = (avgRE*(g_iter-1)+abss(RE-pRE))*g_iter;  
-////    }
-//}
-//
 
 // Purning stopping criterion 
 void CheckOP(int g_iter, double pR){
@@ -1133,7 +939,7 @@ void RevivePE(double pR){
 	int unmarked_Core_N = Core_N - Pruned_Core_N;
 	for(int i=0; i < Revive; i++){
 		int now = c_Num[unmarked_Core_N + i];
-		markCore[now] = 0;
+	    markCore[now] = 0;
 	}
 	Pruned_Core_N -= Revive;
 
@@ -1293,13 +1099,13 @@ double Vest() {
         g_iter++; 
 		if(VERBOSE) printf("\n[Iteration %d]\n", g_iter);
 		steptime = omp_get_wtime();
-		Update_Factor_Matrices(); 
+        Update_Factor_Matrices(); 
 		Update_Core_Tensor();	
 		if(VERBOSE) printf("Elapsed time for updating elements:\t%lf\n", omp_get_wtime() - steptime);
 
 		steptime = omp_get_wtime();
 		Reconstruction();
-		if(VERBOSE) printf("Elapsed time for calculating RE:\t%lf\n", omp_get_wtime() - steptime);
+		if(VERBOSE) printf("Elapsed time for calculating RE %f:\t%lf\n", RE, omp_get_wtime() - steptime);
 
 	    // pR = CheckOP(g_iter, pR); 
         if(AUTO){
@@ -1323,6 +1129,33 @@ double Vest() {
 			    if(VERBOSE) printf("Elapsed Time for Pruning elements:\t%lf\n", omp_get_wtime() - steptime);
 		    }
         }
+	int count_zero = 0; 	
+	int total_zero = 0;
+	for (int i = 0; i < order; i++) {
+		for (int j = 0; j < dimensionality[i]; j++) {
+			for (int k = 0; k < Core_size[i]; k++) {
+				if(FactorM[i*mult + j*Core_max + k] == 0) count_zero++;
+			}
+		}
+	}
+    
+    	double zero_rat = (double)count_zero/(double)t_FM_N;
+	fZR = zero_rat; 
+
+	total_zero += count_zero;
+	count_zero=0;
+	pos = 0;
+	for (int i = 0; i < Core_N; i++) {
+		if(CoreTensor[i] == 0) {
+			count_zero++;
+			continue;	
+		}
+	}
+
+	zero_rat = (double)count_zero/(double)Core_N;
+	total_zero += count_zero;
+	double ZR = (double)total_zero/(double)(t_FM_N+Core_N);
+	totalsparsity = ZR;
 
 		if(VERBOSE) printf("\nSparsity:\t%lf\tRE:\t%lf\tElapsed Time:\t%lf\n\n", totalsparsity, RE, omp_get_wtime() - itertime);
 		avertime += omp_get_wtime() - itertime;
@@ -1390,7 +1223,7 @@ void Print() {
     double zero_rat = (double)count_zero/(double)t_FM_N;
 	if(VERBOSE){ 
         printf("\n---FactorMatrix---");
-	    printf("\nnumber of zero entry is %d...", count_zero);
+	    printf("\nnumber of zero entry is %d and nonzero entry is %d", count_zero, t_FM_N-count_zero);
 	    printf("\nnumber of zero entry ratio is %lf...\n", zero_rat);
     }
     fZR = zero_rat; 
@@ -1416,10 +1249,11 @@ void Print() {
 
 	zero_rat = (double)count_zero/(double)Core_N;
 	total_zero += count_zero;
-	double ZR = (double)total_zero/((double)t_FM_N+(double)Core_N);
+	double ZR = (double)total_zero/(double)(t_FM_N+Core_N);
+	totalsparsity = ZR;
 	if(VERBOSE){
         printf("\n---CoreTensor---");
-	    printf("\nnumber of zero entry is %d...", count_zero);
+	    printf("\nnumber of zero entry is %d and nonzero entry is %d", count_zero, Core_N-count_zero);
 	    printf("\nnumber of zero entry ratio is %lf...\n", zero_rat);
 	    printf("\nnumber of total zero entry ratio is %lf...\n", ZR);
     }
@@ -1490,6 +1324,9 @@ int main(int argc, char* argv[]) {
                     case 'L':
                         FIXED_LAMBDA = true;                    // Do not adjust lambda value by size content
                         break; 
+                    case 'M':
+                        MARK = false;                           // Do update pruned elements
+                        break; 
                     default: 
                         printf("Unknown option -%c\n\n", argv[cind][1]);
                         break;
@@ -1508,7 +1345,7 @@ int main(int argc, char* argv[]) {
 
 		Print();
 
-        printf("\n[InputINFO]\tlambda\tPrunedRatio\tRE\tTestRE\tTotalTime\tavgIterTime\tNumIter\tFM0ratio\tCore0ratio\tTotal0ratio\n");
+        printf("\n[InputINFO]\tlambda\tPrunedRatio\tRE\tTestRE\tTotalTime\tavgIterTime\tNumIter\tFM0ratio\tCore0ratio\tTotal0ratio\tLAMBDA\n");
         printf("[%s,L%c,%d]\t", InputPath,loss_type, AUTO);
         printf("%.3f\t%.3f\t%.3f\t%.5f\t", in_lambda, totalsparsity, RE, TestRE); 
         printf("%.3f\t%.3f\t%d\t", tTime, avgITime, iterNum);  

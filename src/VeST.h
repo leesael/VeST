@@ -1,9 +1,5 @@
 /*
- * @file        VEST.cpp
- * @author      MoonJeong Park (moonjeong94@dgist.ac.kr), Daegu Gyeonbuk Institute of Science and Technology
- * @author      Lee Sael (saellee@snu.ac.rk), Seoul National University
- * @version     1
- * @date        2019-01-29
+ * @file        VEST.h
  *
  * VEST: Very Sparse Factorization of Large-Scale Tensors
  *
@@ -42,7 +38,7 @@ int order = 3;								// Tensor order (e.g., 5)
 int *Core_size;								// Core tensor dimensionality
 int threadsN = 10;						    // Number of threads to be used
 char loss_type = '1';                       // 1 (L1) or F (LF) 
-double pratio= 0.9;							// Pruning ratio (used only in manual mode)
+double pratio= 0.9;								// Pruning ratio (used only in manual mode)
 
 
 // Run settings
@@ -51,6 +47,7 @@ double FIXEDINIT = false;                   // ONLY FOR TESTING WITH FIXED INITI
 bool AUTO = true; 
 bool TESTING = false; //true;  
 bool FIXED_LAMBDA = false;                  // by default use adjusted lambda value
+bool MARK = true;                           // by default mark pruned elements so they are not updated
 // Hidden hyperparameters  
 int MAX_ITER=100;
 double LAMBDA = 5;
@@ -105,8 +102,11 @@ double sumdRE = 0;
 double avgREDiff = 0; 
 double preREs[] = {0,0};  
 
+
 int target_Core_N;                          // target number of elements in a core tensor to prune
 int* target_FM_N;                           // target number of elements in a factor matrix to prune
+
+
 
 //Update-related variables
 int fit_check = 0;
