@@ -19,7 +19,7 @@ Please use the following citation for VeST:
 
 Park, M., Jang, J.  & Sael, L. (2020). **VeST: Very Sparse Tucker Factorization of Large-Scale Tensors.**  2021 IEEE International Conference on
 Big Data and Smart Computing (BigComp)
-[[Paper]()] [[Supplementary Material](./supplementary.pdf)]
+[[Paper](./paper/paper.pdf)] [[Supplementary Material](./paper/supplementary.pdf)]
 
 ## People
 MoonJeong Park (Pohang University of Science and Technology)  
