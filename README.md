@@ -21,6 +21,9 @@ Park, M., Jang, J.  & Sael, L. (2020). **VeST: Very Sparse Tucker Factorization 
 Big Data and Smart Computing (BigComp)
 [[Paper](./paper/paper.pdf)] [[Supplementary Material](./paper/supplementary.pdf)]
 
+## Comparison
+![compy_img](/img/Fig2.png)
+
 ## People
 MoonJeong Park (Pohang University of Science and Technology)  
 [Jung-Gi Jang](https://datalab.snu.ac.kr/~jkjang) (Seoul National University)  
