@@ -1,4 +1,4 @@
-# VeST: Very Sparse Tucker Factorization of Large-Scale Tensors 
+# Large-Scale Tucker Tensor Factorization for Sparse and Accurate Decomposition
 
 ## Overview
 Given a large tensor, how can we decompose it to sparse core tensor 
